@@ -1,4 +1,7 @@
 {
     "presets": ["es2015"],
-    "comments": false
+    "comments": false,
+    "plugins": [
+        ["transform-object-rest-spread", { "useBuiltIns": true }]
+    ]
 }

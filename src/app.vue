@@ -2,9 +2,9 @@
     <div>
         <template-header />
         <div class="container">
-            <template-right-panel />
-            <template-draw-panel />
             <template-left-panel />
+            <template-draw-panel />
+            <template-right-panel />
         </div>
     </div>
 </template>

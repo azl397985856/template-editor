@@ -1,8 +1,21 @@
-@import '../entry.less';
 
 .left-panel-container {
-    .container;
-    flex:1;
-    height: 50px;
-    background-color: #eee;
+    margin: 15px;
+    width: 160px;
+    border: 2px #000 solid;
+    border-radius: 7px;
+    height: 700px;
+    & li {
+        display: block;
+        text-align: center;
+        width: 160px;
+        height: 25px;
+        list-style: none;
+    }
+    & li:hover {
+        background-color: #7E87C2;
+    }
+    .active {
+        background-color: #6F67C2;
+    }
 }
