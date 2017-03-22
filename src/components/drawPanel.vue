@@ -8,6 +8,7 @@
             v-for="item in printItems"
             :print-key="item.key"
         >
+            <i class="el-icon-close" :print-key="item.key" @click="deleteItem" />
             {{item.title}}
         </div>
     </div>
@@ -59,7 +60,11 @@
                 const height = e.target.clientHeight;
                 const top = e.y - height;
                 const left = e.x - width;
-                // console.log('top', top, 'left', left, 'width', width, 'height', height);
+                console.log('top', top, 'left', left, 'width', width, 'height', height);
+            },
+            deleteItem(e) {
+                const key = e.target.getAttribute('print-key')
+                this.$store.state.printItem = this.$store.state.printItem.filter(item => item.key !== key);
             }
         },
         computed: {
