@@ -1,8 +1,10 @@
 <template>
     <ul class="left-panel-container" @click="onSelect">
-        <li>寄件人</li>
-        <li>寄件人_邮编</li>
-        <li>寄件人_省</li>
+        <li v-for="item in printItem" :print-item="JSON.stringify(item)" :print-key="item.key">
+            {{
+                item.title
+            }}
+        </li>
     </ul>
 </template>
 
@@ -12,20 +14,22 @@
 
 <script>
     import $ from 'jquery';
-    import { mapGetters } from 'vuex'
-
+    import { rect, image } from '../enums/index';
     module.exports = {
         data: function () {
             return {
-                name: 'leftPanel'
+                name: 'leftPanel',
+                printItem: rect.concat(image)
             }
         },
         methods: {
             onSelect(e) {
+                // add active class to selected item
                 $('.left-panel-container li').removeClass('active');
                 $(e.target).addClass('active');
-                this.$store.dispatch('addItem', 1);
-                console.log(this.$store.state);
+                
+                // dispatch
+                this.$store.dispatch('addItem', JSON.parse(e.target.getAttribute('print-item')));
             }
         }
     }

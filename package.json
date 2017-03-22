@@ -1,11 +1,11 @@
 {
   "name": "template-editor",
   "version": "1.0.0",
-  "description": "",
+  "description": "一款打单系统的模板编辑器组件的实现",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --hot",
+    "dev": "webpack-dev-server --port 9527 --hot",
     "clean": "rm -rf dist/",
     "build": "npm run clean && webpack --progress --colors"
   },
@@ -13,6 +13,7 @@
     "element-ui": "^1.2.5",
     "jquery": "^3.2.1",
     "vue": "^2.2.4",
+    "vue-dragging": "^1.0.6",
     "vuex": "^2.2.1"
   },
   "devDependencies": {
@@ -38,7 +39,12 @@
     "type": "git",
     "url": "git+https://github.com/azl397985856/template-editor.git"
   },
-  "keywords": ["cainiao", "CN", "template", "editor"],
+  "keywords": [
+    "cainiao",
+    "CN",
+    "template",
+    "editor"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {

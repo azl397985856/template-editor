@@ -8,11 +8,11 @@ const debug = process.env.NODE_ENV !== 'production'
 
 export default new Vuex.Store({
   state: {
-      count: 0,
+      printItem: [],
   },
   mutations: {
     addItem(state, payload) {
-        state.count++;
+        state.printItem.push(payload);
     }
   },
   actions: {

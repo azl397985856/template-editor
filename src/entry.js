@@ -7,7 +7,9 @@ import './entry.less';
 import 'element-ui/lib/theme-default/index.css';
 
 import ElementUI from 'element-ui';
+import vueDrag from 'vue-dragging';
 
+Vue.use(vueDrag);
 Vue.use(ElementUI);
 
 new Vue({
