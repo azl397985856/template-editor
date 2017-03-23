@@ -4,7 +4,7 @@
   "description": "一款打单系统的模板编辑器组件的实现",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "karma start",
     "dev": "webpack-dev-server --port 9527 --hot",
     "clean": "rm -rf dist/",
     "build": "npm run clean && webpack --progress --colors"
@@ -14,21 +14,30 @@
     "jquery": "^3.2.1",
     "vue": "^2.2.4",
     "vuejs-drag": "^1.0.0",
-    "vuex": "^2.2.1"
+    "vuex": "^2.2.1",
+    "xmljson": "^0.2.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.7",
     "babel-core": "^6.24.0",
     "babel-loader": "^6.4.1",
+    "babel-plugin-istanbul": "^4.1.1",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-es2015": "^6.24.0",
+    "chai": "^3.5.0",
     "css-loader": "^0.27.3",
     "cssnano": "^3.10.0",
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.10.1",
     "html-webpack-plugin": "^2.28.0",
+    "karma": "^1.5.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-coverage": "^1.1.1",
+    "karma-mocha": "^1.3.0",
+    "karma-webpack": "^2.0.3",
     "less": "^2.7.2",
     "less-loader": "^3.0.0",
+    "mocha": "^3.2.0",
     "postcss-loader": "^1.3.3",
     "vue-loader": "^11.1.4",
     "vue-template-compiler": "^2.2.4",
@@ -46,7 +55,7 @@
     "editor"
   ],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/azl397985856/template-editor/issues"
   },

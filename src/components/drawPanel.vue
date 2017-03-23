@@ -60,6 +60,7 @@
                 const height = e.target.clientHeight;
                 const top = e.y - height;
                 const left = e.x - width;
+                // dispatch to editor
                 console.log('top', top, 'left', left, 'width', width, 'height', height);
             },
             deleteItem(e) {

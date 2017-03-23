@@ -2,7 +2,9 @@
 
 > A Vue.js project base on vue2, webpack2, vuex2.
 > more info about the project, please visite [菜鸟编辑器开发架构设想](https://my.oschina.net/wanjubang/blog/861972)
+
 ![image](https://github.com/azl397985856/template-editor/raw/master/screenshot/template-editor.png)
+
 ## Build Setup
 
 ``` bash
