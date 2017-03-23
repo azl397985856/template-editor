@@ -16,17 +16,6 @@ export function JSONToXML(items, pageConfig = {
     const body = items.map(item => {
         // TODO style
 
-        // const style ={
-        //     width: item.width,
-        //     height: item.height // and so on 
-        // }
-        // var styleText = ""; // let doen't work
-        // const style = item.style;
-        // for(let key in style) {
-        //     styleText += `${key}:${style[key]};`;
-        // }
-        // item.layout.$.style = undefined;
-
         let XML;
         to_xml(JSON.stringify({
             ...item,

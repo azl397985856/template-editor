@@ -2,7 +2,12 @@
     <div class="right-panel-container">
         <div class="right-panel-ff">
             字体：
-            <el-select v-model="fontFamily" size="small" placeholder="请选择">
+            <el-select
+                @change="handleFontFamilyChange"
+                v-model="fontFamily"
+                size="small"
+                placeholder="请选择"
+            >
                     <el-option
                         v-for="item in options"
                         :label="item.label"
@@ -18,15 +23,19 @@
         </div>
         <div class="right-panel-fw">
             字形：
-            <el-button size="small">B</el-button>
-            <el-button size="small">I</el-button>
-            <el-button size="small">U</el-button>
+             <el-radio-group v-model="fw"  @change="handleShapChange">
+                <el-radio-button size="small" label="B"></el-radio-button>
+                <el-radio-button size="small" label="I"></el-radio-button>
+                <el-radio-button size="small" label="U"></el-radio-button>
+            </el-radio-group>
         </div>
         <div class="right-panel-al">
             对齐：
-            <el-button size="small">L</el-button>
-            <el-button size="small">C</el-button>
-            <el-button size="small">R</el-button>
+            <el-radio-group v-model="al" @change="handleAlignChange">
+                <el-radio-button size="small" label="L"></el-radio-button>
+                <el-radio-button size="small" label="C"></el-radio-button>
+                <el-radio-button size="small" label="R"></el-radio-button>
+            </el-radio-group>
         </div>
     </div>
 </template>
@@ -36,6 +45,8 @@
 </style>
 
 <script>
+    import $ from 'jquery';
+
     module.exports = {
         data: function () {
             return {
@@ -56,12 +67,36 @@
                     fontFamily: 'key5',
                     label: '呵呵体'
                 }],
-                    fontFamily: ''
+                    fontFamily: '扁桃体',
+                    al: '',
+                    fw: ''
                 }
         },
         methods: {
-            handleFontSizeChange(v) {
-                console.log(v)
+            handleFontSizeChange(fontSize) {
+                // dispatch style
+                this.$store.dispatch('editStyle', {
+                    fontSize
+                });
+            },
+            handleFontFamilyChange(fontFamily) {
+                // dispatch style
+                this.$store.dispatch('editStyle', {
+                    fontFamily
+                });
+
+            },
+            handleAlignChange(align) {
+                 // dispatch style
+                 this.$store.dispatch('editStyle', {
+                    align
+                });
+            },
+             handleShapChange(fontWeight) {
+                 // dispatch style
+                 this.$store.dispatch('editStyle', {
+                    fontWeight
+                });
             }
         }
     }

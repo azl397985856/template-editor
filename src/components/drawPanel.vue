@@ -7,6 +7,7 @@
             v-drag="edge"
             v-for="item in printItems"
             :print-key="item.key"
+            :style="item.editStyle"
         >
             <i class="el-icon-close" :print-key="item.key" @click="deleteItem" />
             {{item.title}}
@@ -28,6 +29,7 @@
     import enums from '../enums/index';
     import { JSONToXML } from '../editor/index';
     import Unit from '../util/unit';
+    import { stringifyStyle } from '../util/stringifyStyle';
 
     module.exports = {
         data: function () {
@@ -74,7 +76,8 @@
                 Unit.scale = window.devicePixelRatio;
                 const { toMillimeter } = Unit;
                 const key = e.target.getAttribute('print-key');
-                this.$store.state.printItem = this.$store.state.printItem.map(item => {
+                this.$store.state.printItems = this.$store.state.printItems.map(item => {
+                    item.active = false; // for style editing
                     if (key === item.key) {
                         item.style ={
                             top: toMillimeter(top),
@@ -82,6 +85,7 @@
                             width: toMillimeter(width),
                             height: toMillimeter(height)
                         }
+                        item.active = true;
                     }
                     return item;
                 });
@@ -91,23 +95,26 @@
                     const ret = {};
                     ret.layout = {};
                     ret.layout.$ = {};
-                    ret.layout.text = `<![CDATA[<%=_data.${item.key}%>]]>`
+                    ret.layout.text = {};
+                    ret.layout.text._ = `<![CDATA[<%=_data.${item.key}%>]]>`;
+                    ret.layout.text.$ = {};
+                    ret.layout.text.$.style = stringifyStyle(item.editStyle);
                     ret.layout.$ = item.style;
                     return ret;
                 })
             },
             deleteItem(e) {
                 const key = e.target.getAttribute('print-key');
-                this.$store.state.printItem = this.$store.state.printItem.filter(item => item.key !== key);
+                this.$store.state.printItems = this.$store.state.printItems.filter(item => item.key !== key);
             },
             saveTemplate() {
-                const XML = JSONToXML(this.translatePrintItem(this.$store.state.printItem));
+                const XML = JSONToXML(this.translatePrintItem(this.$store.state.printItems));
                 console.info(XML);
             }
         },
         computed: {
             printItems(vueComponent) {
-                return vueComponent.$store.state.printItem;
+                return vueComponent.$store.state.printItems;
             }
         }
     }

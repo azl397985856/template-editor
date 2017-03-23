@@ -25,6 +25,7 @@ npm run test
 2. the location of the print-item should be responsive.
 3. escape charactors [CDATA tag
 4. style supported
+5. complete XMLToJSON
 
 ## Licence
 
