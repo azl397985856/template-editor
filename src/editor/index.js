@@ -1,11 +1,18 @@
 import { to_xml, to_json } from 'xmljson';
+import Unit from '../util/unit';
 
 // usage https://github.com/ExactTarget/node-xmljson
 export function XMLToJSON() {
     // TODO
 }
 // usage https://github.com/ExactTarget/node-xmljson
-export function JSONToXML(items, pageConfig) {
+export function JSONToXML(items, pageConfig = {
+    top: "0",
+    width: "180",
+    left: "0",
+    height: "60",
+    style: ""
+}) {
     const body = items.map(item => {
         // TODO style
 
@@ -30,7 +37,20 @@ export function JSONToXML(items, pageConfig) {
         })
         return XML;
     }).join(' ');
-    // other params such as pageSize should
-    // attach to the layout tag below before returned;
-    return `<layout>${body}</layout>`
+    Unit.scale = window.devicePixelRatio;
+    const { toMillimeter } = Unit;
+    const baseLayout =`<?xml version="1.0" encoding="UTF-8"?>
+        <layout
+            xmlns="http://cloudprint.cainiao.com/print"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:schemaLocation="http://cloudprint.cainiao.com/print http://cloudprint-docs-resource.oss-cn-shanghai.aliyuncs.com/lpml_schema.xsd"
+			xmlns:editor="http://cloudprint.cainiao.com/schema/editor"
+            top="${toMillimeter(pageConfig.top)}"
+            left="${toMillimeter(pageConfig.left)}"
+            width="${toMillimeter(pageConfig.width)}"
+            height="${toMillimeter(pageConfig.height)}"
+            style="${pageConfig.style}"
+        >
+    `
+    return `${baseLayout}${body}</layout>`
 }

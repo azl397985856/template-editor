@@ -17,15 +17,14 @@ npm run dev
 # build for production with minification
 npm run build
 
-# run unit tests
-npm run unit
-
 # run all tests
-npm test
+npm run test
 ```
 ## TODO
-1. the close-icon of the print-item should be responsive
-2. the location of the print-item should be responsive
+1. the close-icon of the print-item should be responsive.
+2. the location of the print-item should be responsive.
+3. escape charactors [CDATA tag
+4. style supported
 
 ## Licence
 

@@ -1,8 +1,8 @@
 <template>
     <div class="draw-panel-container">
-        <img class="template-pic" src="assets/sample.jpg" />
         <div
             class="print-item"
+            @mousedown="drop"
             @mouseup="drop"
             v-drag="edge"
             v-for="item in printItems"
@@ -10,6 +10,10 @@
         >
             <i class="el-icon-close" :print-key="item.key" @click="deleteItem" />
             {{item.title}}
+        </div>
+        <div class="draw-panel-footer">
+            <el-button>取消</el-button>
+            <el-button type="primary" @click="saveTemplate">保存</el-button>
         </div>
     </div>
 </template>
@@ -19,8 +23,11 @@
 </style>
 
 <script>
-    import enums from '../enums/index';
     import $ from 'jquery';
+
+    import enums from '../enums/index';
+    import { JSONToXML } from '../editor/index';
+    import Unit from '../util/unit';
 
     module.exports = {
         data: function () {
@@ -38,34 +45,64 @@
             }
         },
         methods: {
-            // 不管是拖拽还是改变大小都触发
+            // 不管是拖拽还是改变大小都触发。
+            // mouseup 也监听是为了设置可拖动区域。可优化
             drop(e) {
-                const templatePic = document.querySelector('.template-pic');
+                const templatePic = document.querySelector('.draw-panel-container');
                 const tWidth = templatePic.clientWidth;
                 const tHeight = templatePic.clientHeight;
                 const tTop = templatePic.offsetTop;
                 const tLeft = templatePic.offsetLeft;
-                const padding = 10 ; // 拖拽留白宽度
-                this.edge= {
-                    p1: {
-                        left: tLeft + padding,
-                        top: tTop + padding,
-                    },
-                    p2: {
-                        left: tLeft + tWidth - padding,
-                        top: tTop + tHeight - padding
-                    }
-                };
+
                 const width = e.target.clientWidth;
                 const height = e.target.clientHeight;
-                const top = e.y - height;
-                const left = e.x - width;
+                const top = e.target.offsetTop;
+                const left = e.target.offsetLeft;
+
+                this.edge= {
+                    p1: {
+                        left: tLeft + e.clientX - left,
+                        top: tTop + e.clientY - top,
+                    },
+                    p2: {
+                        left: tLeft + tWidth - e.clientX + left,
+                        top: tTop + tHeight - e.clientY + top
+                    }
+                };
                 // dispatch to editor
                 console.log('top', top, 'left', left, 'width', width, 'height', height);
+                Unit.scale = window.devicePixelRatio;
+                const { toMillimeter } = Unit;
+                const key = e.target.getAttribute('print-key');
+                this.$store.state.printItem = this.$store.state.printItem.map(item => {
+                    if (key === item.key) {
+                        item.style ={
+                            top: toMillimeter(top),
+                            left: toMillimeter(left),
+                            width: toMillimeter(width),
+                            height: toMillimeter(height)
+                        }
+                    }
+                    return item;
+                });
+            },
+            translatePrintItem(items) {
+                return items.map(item => {
+                    const ret = {};
+                    ret.layout = {};
+                    ret.layout.$ = {};
+                    ret.layout.text = `<![CDATA[<%=_data.${item.key}%>]]>`
+                    ret.layout.$ = item.style;
+                    return ret;
+                })
             },
             deleteItem(e) {
-                const key = e.target.getAttribute('print-key')
+                const key = e.target.getAttribute('print-key');
                 this.$store.state.printItem = this.$store.state.printItem.filter(item => item.key !== key);
+            },
+            saveTemplate() {
+                const XML = JSONToXML(this.translatePrintItem(this.$store.state.printItem));
+                console.info(XML);
             }
         },
         computed: {
