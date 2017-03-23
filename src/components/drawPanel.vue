@@ -2,6 +2,7 @@
     <div class="draw-panel-container">
         <div
             class="print-item"
+            v-show="item.key"
             @mousedown="drop"
             @mouseup="drop"
             v-drag="edge"
@@ -105,7 +106,12 @@
             },
             deleteItem(e) {
                 const key = e.target.getAttribute('print-key');
-                this.$store.state.printItems = this.$store.state.printItems.filter(item => item.key !== key);
+                this.$store.state.printItems = this.$store.state.printItems.map(item => {
+                    if (item.key === key) {
+                        item = {};
+                    }
+                    return item;
+                });
             },
             saveTemplate() {
                 const XML = JSONToXML(this.translatePrintItem(this.$store.state.printItems));
