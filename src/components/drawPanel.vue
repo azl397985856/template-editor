@@ -3,6 +3,7 @@
         <div
             class="print-item"
             v-show="item.key"
+            @click="onItemClick"
             @mousedown="drop"
             @mouseup="drop"
             v-drag="edge"
@@ -90,6 +91,12 @@
                     }
                     return item;
                 });
+            },
+            onItemClick(e) {
+                // dispatch
+                const key = e.target.getAttribute('print-key');
+                const item = this.$store.state.printItems.filter(_item => item.key === key)[0];
+                this.$store.dispatch('currentStyle', item.editStyle);
             },
             translatePrintItem(items) {
                 return items.map(item => {
