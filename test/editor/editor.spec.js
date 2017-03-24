@@ -5,43 +5,43 @@
 /*  last   : 2017-3-3 10:58:19
 */
 import { expect } from 'chai';
-import { to_json, to_xml } from 'xmljson';
-import { JSONToXML, XMLToJSON} from '../../src/editor/index.js';
+import { to_json as toJSON } from 'xmljson';
+import { JSONToXML, XMLToJSON } from '../../src/editor/index.js';
 describe('editor ------>', () => {
-	it('JSON to XML: attr only', () => {
-        const items = [{
-            layout: {
-                $:{
-                    top: 20,
-                    width: 66,
-                    height: 30,
-                    left: 99
-                }
-            }
-        }, {
-            layout: {
-                $:{
-                    top: 20,
-                    width: 28,
-                    height: 10,
-                    left: 99
-                }
-            }
-        }];
+	it ('JSON to XML: attr only', () => {
+		const items = [{
+			layout: {
+				$: {
+					top: 20,
+					width: 66,
+					height: 30,
+					left: 99
+				}
+			}
+		}, {
+			layout: {
+				$:{
+					top: 20,
+					width: 28,
+					height: 10,
+					left: 99
+				}
+			}
+		}];
 		let ret;
-        to_json(JSONToXML(items), (error, data) => {
-            ret = data;
-        })
+		toJSON(JSONToXML(items), (error, data) => {
+			ret = data;
+		})
 		expect(ret)
-        .to.have.property('layout')
-        .to.have.property('layout')
-        .to.have.property('1')
-        .to.have.property('$')
-        .to.have.property('left')
-        .to.equal('99');
+		.to.have.property('layout')
+		.to.have.property('layout')
+		.to.have.property('1')
+		.to.have.property('$')
+		.to.have.property('left')
+		.to.equal('99');
 	})
-    it('XML to JSON: attr only', () => {
-        // TODO
-        return true;
+	it ('XML to JSON: attr only', () => {
+		// TODO
+		return true;
 	})
 })

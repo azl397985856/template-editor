@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "karma start",
-    "lint": "eslint --ext .js,.jsx src/",
+    "lint": "eslint --ext .js,.vue src/",
     "dev": "webpack-dev-server --port 9527 --hot",
     "clean": "rm -rf dist/",
     "build": "npm run clean && webpack --progress --colors"
