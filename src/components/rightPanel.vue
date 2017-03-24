@@ -38,7 +38,7 @@
 
 <script>
     import $ from 'jquery';
-    import { fonts } from '../config/index';
+    import { fonts, mapper } from '../config/index';
 
     module.exports = {
         data: function () {
@@ -66,13 +66,13 @@
                      fontStyle: "",
                      textDecoration: ""
                  };
-                 if (v.indexOf('粗体') !== -1) {
+                 if (v.indexOf(mapper.bold) !== -1) {
                      shape.fontWeight = 'bold';
                  }
-                 if (v.indexOf('斜体') !== -1) {
-                     shape.fontStyle = 'italic ';
+                 if (v.indexOf(mapper.italic) !== -1) {
+                     shape.fontStyle = 'italic';
                  }
-                 if(v.indexOf('下划线') !== -1) {
+                 if(v.indexOf(mapper.underline) !== -1) {
                      shape.textDecoration = 'underline';
                  }
                  // dispatch style

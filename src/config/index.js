@@ -19,6 +19,11 @@ module.exports = {
 		fontSize: 12,
 		fontFamily: 'Microsoft YaHei',
 		fw: ['']
+	},
+	mapper: {
+		italic: '斜体',
+		bold: '粗体',
+		underline: '下划线'
 	}
 }
 

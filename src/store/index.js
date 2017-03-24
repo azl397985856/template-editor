@@ -3,7 +3,7 @@ import Vuex from 'vuex';
 
 import leftPanel from '../components/leftPanel.vue';
 
-import { DEFAULT_STYLE } from '../config/index';
+import { DEFAULT_STYLE, mapper } from '../config/index';
 
 Vue.use(Vuex)
 
@@ -38,6 +38,8 @@ export default new Vuex.Store({
 					const editStyle = { ...item.editStyle, ...payload }
 					item.editStyle = editStyle;
 					state.editStyle = editStyle;
+					const { fontWeight, fontStyle, textDecoration } = editStyle;
+					state.editStyle.fw = [mapper[fontStyle], mapper[fontWeight], mapper[textDecoration]];
 				}
 				return item;
 			});

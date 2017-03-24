@@ -28,14 +28,45 @@
 <script>
     import $ from 'jquery';
 
-    import { JSONToXML } from '../editor/index';
+    import { JSONToXML, XMLToJSON } from '../editor/index';
 
     import enums from '../enums/index';
-    import { stringifyStyle } from '../util/stringifyStyle';
+    import { getTemplate } from '../services/index';
+    import { stringifyStyle, parseStyle } from '../util/style';
     import { toMillimeter } from '../util/unit';
     import { DEFAULT_STYLE } from '../config/index';
 
     module.exports = {
+        created() {
+            const template = XMLToJSON(getTemplate());
+            const page = template.layout;
+            const items = page.layout;
+            const printItems = [];
+
+            // 生成print-items
+            for(let key in items) {
+                const ret = {};
+                const item = items[key];
+                const { top, left, width, height } = item.$;
+                ret.id = item.$.id;
+                ret.style = {
+                    top,
+                    left,
+                    width,
+                    height
+                }
+                ret.editStyle = parseStyle(item.text.$.style);
+                ret.title = item.text.$['editor:_printName_'];
+                ret.key = item.text._.match(/\..*%/)[0].slice(1, -1);
+                printItems.push(ret);
+            }
+
+            this.$store.state.printItems = printItems;
+            
+            // 同步style数据到右侧面板
+            printItems.forEach(item => this.editStyle(item.id));
+            console.info(items)
+        },
         data: function () {
             return {
                 edge: {
@@ -44,7 +75,7 @@
                         left: 0
                     },
                     p2: {
-                        top:9999,
+                        top:9999, // infinite
                         left:9999
                     }
                 }
@@ -93,13 +124,14 @@
                     return item;
                 });
             },
+            editStyle(id) {
+                const item = this.$store.state.printItems.filter(_item => _item.id === id)[0];
+                this.$store.dispatch('editStyle', item.editStyle || DEFAULT_STYLE);
+            },
             onItemClick(e) {
-                // dispatch
                 const id = e.target.getAttribute('id');
                 if (!id) return;
-                const item = this.$store.state.printItems.filter(_item => _item.id === id)[0];
-                // todo  extract default style 
-                this.$store.dispatch('editStyle', item.editStyle || DEFAULT_STYLE);
+                this.editStyle(id);
             },
             translatePrintItem(items) {
                 return items.map(item => {

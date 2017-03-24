@@ -1,9 +1,17 @@
-import { to_xml as toXML } from 'xmljson';
+import { to_xml as toXML, to_json as toJSON } from 'xmljson';
 import { toMillimeter } from '../util/unit';
 
 // usage https://github.com/ExactTarget/node-xmljson
-export function XMLToJSON () {
-    // TODO
+export function XMLToJSON (xml) {
+	let json;
+	toJSON(xml, (error, data) => {
+		if (error) {
+			console.error(error);
+			return {};
+		}
+		json = data;
+	})
+	return json;
 }
 // usage https://github.com/ExactTarget/node-xmljson
 export function JSONToXML (items, pageConfig = {
