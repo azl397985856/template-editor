@@ -2,16 +2,16 @@
     <div class="draw-panel-container">
         <div
             class="print-item"
-            v-show="item.key"
+            v-show="item.id"
             @click="onItemClick"
             @mousedown="drop"
             @mouseup="drop"
             v-drag="edge"
             v-for="item in printItems"
-            :print-key="item.key"
+            :id="item.id"
             :style="item.editStyle"
         >
-            <i class="el-icon-close" :print-key="item.key" @click="deleteItem" />
+            <i class="el-icon-close" :id="item.id" @click="deleteItem" />
             {{item.title}}
         </div>
         <div class="draw-panel-footer">
@@ -81,10 +81,10 @@
                 console.log('top', top, 'left', left, 'width', width, 'height', height);
                 Unit.scale = window.devicePixelRatio;
                 const { toMillimeter } = Unit;
-                const key = e.target.getAttribute('print-key');
+                const id = e.target.getAttribute('id');
                 this.$store.state.printItems = this.$store.state.printItems.map(item => {
                     item.active = false; // for style editing
-                    if (key === item.key) {
+                    if (id === item.id) {
                         item.style ={
                             top: toMillimeter(top),
                             left: toMillimeter(left),
@@ -98,14 +98,17 @@
             },
             onItemClick(e) {
                 // dispatch
-                const key = e.target.getAttribute('print-key');
-                const item = this.$store.state.printItems.filter(_item => _item.key === key)[0];
+                const id = e.target.getAttribute('id');
+                if (!id) return;
+                const item = this.$store.state.printItems.filter(_item => _item.id === id)[0];
                 // todo  extract default style 
                 this.$store.dispatch('editStyle', item.editStyle || DEFAULT_STYLE);
             },
             translatePrintItem(items) {
                 return items.map(item => {
                     const ret = {};
+
+                    if (!item.id) return ret;
                     ret.layout = {};
                     ret.layout.$ = {};
                     ret.layout.text = {};
@@ -117,9 +120,9 @@
                 })
             },
             deleteItem(e) {
-                const key = e.target.getAttribute('print-key');
+                const id = e.target.getAttribute('id');
                 this.$store.state.printItems = this.$store.state.printItems.map(item => {
-                    if (item.key === key) {
+                    if (item.id === id) {
                         item = {};
                     }
                     return item;

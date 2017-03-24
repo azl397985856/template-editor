@@ -93,7 +93,7 @@
                  this.$store.dispatch('editStyle', { ...shape });
             }
         },
-         computed: {
+        computed: {
             currentStyle(vueComponent) {
                 return vueComponent.$store.state.currentStyle;
             }

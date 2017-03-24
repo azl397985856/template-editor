@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "karma start",
+    "lint": "eslint --ext .js,.jsx src/",
     "dev": "webpack-dev-server --port 9527 --hot",
     "clean": "rm -rf dist/",
     "build": "npm run clean && webpack --progress --colors"
@@ -27,6 +28,9 @@
     "chai": "^3.5.0",
     "css-loader": "^0.27.3",
     "cssnano": "^3.10.0",
+    "eslint": "^3.18.0",
+    "eslint-config-vue": "^2.0.2",
+    "eslint-plugin-vue": "^2.0.1",
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.10.1",
     "html-webpack-plugin": "^2.28.0",
