@@ -32,7 +32,11 @@
     import { JSONToXML } from '../editor/index';
     import Unit from '../util/unit';
     import { stringifyStyle } from '../util/stringifyStyle';
-
+    const DEFAULT_STYLE =  {
+        fontSize: 12,
+        fontFamily: '扁桃体',
+        fw: ['']
+    }
     module.exports = {
         data: function () {
             return {
@@ -88,8 +92,6 @@
                             height: toMillimeter(height)
                         }
                         item.active = true;
-                         // dispatch
-                         this.$store.dispatch('currentStyle', item.editStyle || {});
                     }
                     return item;
                 });
@@ -97,8 +99,9 @@
             onItemClick(e) {
                 // dispatch
                 const key = e.target.getAttribute('print-key');
-                const item = this.$store.state.printItems.filter(_item => item.key === key)[0];
-                this.$store.dispatch('currentStyle', item.editStyle);
+                const item = this.$store.state.printItems.filter(_item => _item.key === key)[0];
+                // todo  extract default style 
+                this.$store.dispatch('editStyle', item.editStyle || DEFAULT_STYLE);
             },
             translatePrintItem(items) {
                 return items.map(item => {

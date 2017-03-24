@@ -18,24 +18,16 @@
         </div>
         <div class="right-panel-fs">
             字号：
-            <el-input-number v-model="currentStyle.fontSize" size="small" @change="handleFontSizeChange" :min="1" :max="50">
+            <el-input-number v-model="currentStyle.fontSize" size="small" @change="handleFontSizeChange" :min="12" :max="50">
             </el-input-number>
         </div>
         <div class="right-panel-fw">
             字形：
-             <el-radio-group v-model="currentStyle.fw"  @change="handleShapChange">
-                <el-radio-button size="small" label="B"></el-radio-button>
-                <el-radio-button size="small" label="I"></el-radio-button>
-                <el-radio-button size="small" label="U"></el-radio-button>
-            </el-radio-group>
-        </div>
-        <div class="right-panel-al">
-            对齐：
-            <el-radio-group v-model="currentStyle.al" @change="handleAlignChange">
-                <el-radio-button size="small" label="L"></el-radio-button>
-                <el-radio-button size="small" label="C"></el-radio-button>
-                <el-radio-button size="small" label="R"></el-radio-button>
-            </el-radio-group>
+            <el-checkbox-group v-model="currentStyle.fw"  @change="handleShapChange">
+                <el-checkbox size="small" label="粗体"></el-checkbox>
+                <el-checkbox size="small" label="斜体"></el-checkbox>
+                <el-checkbox size="small" label="下划线"></el-checkbox>
+            </el-checkbox-group>
         </div>
     </div>
 </template>
@@ -51,25 +43,21 @@
         data: function () {
             return {
                  options: [{
-                    fontFamily: 'key1',
+                    fontFamily: 'Serif',
                     label: '宋体'
                  }, {
-                    fontFamily: 'key2',
+                    fontFamily: 'Sans-serif',
                     label: '黑体'
                  }, {
-                    fontFamily: 'key3',
+                    fontFamily: 'Monospace ',
                     label: '扁桃体'
                  }, {
-                    fontFamily: 'key4',
+                    fontFamily: 'Cursive ',
                     label: '斜体'
                  }, {
-                    fontFamily: 'key5',
+                    fontFamily: 'Fantasy ',
                     label: '呵呵体'
                 }],
-                    fontFamily: '扁桃体',
-                    al: '',
-                    fw: '',
-                    fontSize: '12'
                 }
         },
         methods: {
@@ -86,17 +74,23 @@
                 });
 
             },
-            handleAlignChange(align) {
+             handleShapChange(v) {
+                 let shape = {
+                     fontWeight: "",
+                     fontStyle: "",
+                     textDecoration: ""
+                 };
+                 if (v.indexOf('粗体') !== -1) {
+                     shape.fontWeight = 'bold';
+                 }
+                 if (v.indexOf('斜体') !== -1) {
+                     shape.fontStyle = 'italic ';
+                 }
+                 if(v.indexOf('下划线') !== -1) {
+                     shape.textDecoration = 'underline';
+                 }
                  // dispatch style
-                 this.$store.dispatch('editStyle', {
-                    align
-                });
-            },
-             handleShapChange(fontWeight) {
-                 // dispatch style
-                 this.$store.dispatch('editStyle', {
-                    fontWeight
-                });
+                 this.$store.dispatch('editStyle', { ...shape });
             }
         },
          computed: {
