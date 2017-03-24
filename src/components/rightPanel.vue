@@ -4,7 +4,7 @@
             字体：
             <el-select
                 @change="handleFontFamilyChange"
-                v-model="currentStyle.fontFamily"
+                v-model="editStyle.fontFamily"
                 size="small"
                 placeholder="请选择"
             >
@@ -18,12 +18,12 @@
         </div>
         <div class="right-panel-fs">
             字号：
-            <el-input-number v-model="currentStyle.fontSize" size="small" @change="handleFontSizeChange" :min="12" :max="50">
+            <el-input-number v-model="editStyle.fontSize" size="small" @change="handleFontSizeChange" :min="12" :max="50">
             </el-input-number>
         </div>
         <div class="right-panel-fw">
             字形：
-            <el-checkbox-group v-model="currentStyle.fw"  @change="handleShapChange">
+            <el-checkbox-group v-model="editStyle.fw"  @change="handleShapChange">
                 <el-checkbox size="small" label="粗体"></el-checkbox>
                 <el-checkbox size="small" label="斜体"></el-checkbox>
                 <el-checkbox size="small" label="下划线"></el-checkbox>
@@ -38,27 +38,13 @@
 
 <script>
     import $ from 'jquery';
+    import { fonts } from '../config/index';
 
     module.exports = {
         data: function () {
             return {
-                 options: [{
-                    fontFamily: 'Serif',
-                    label: '宋体'
-                 }, {
-                    fontFamily: 'Sans-serif',
-                    label: '黑体'
-                 }, {
-                    fontFamily: 'Monospace ',
-                    label: '扁桃体'
-                 }, {
-                    fontFamily: 'Cursive ',
-                    label: '斜体'
-                 }, {
-                    fontFamily: 'Fantasy ',
-                    label: '呵呵体'
-                }],
-                }
+                 options: fonts,
+            }
         },
         methods: {
             handleFontSizeChange(fontSize) {
@@ -94,8 +80,8 @@
             }
         },
         computed: {
-            currentStyle(vueComponent) {
-                return vueComponent.$store.state.currentStyle;
+            editStyle (vueComponent) {
+                return vueComponent.$store.state.editStyle;
             }
         }
     }

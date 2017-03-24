@@ -28,15 +28,13 @@
 <script>
     import $ from 'jquery';
 
-    import enums from '../enums/index';
     import { JSONToXML } from '../editor/index';
-    import Unit from '../util/unit';
+
+    import enums from '../enums/index';
     import { stringifyStyle } from '../util/stringifyStyle';
-    const DEFAULT_STYLE =  {
-        fontSize: 12,
-        fontFamily: '扁桃体',
-        fw: ['']
-    }
+    import { toMillimeter } from '../util/unit';
+    import { DEFAULT_STYLE } from '../config/index';
+
     module.exports = {
         data: function () {
             return {
@@ -79,17 +77,16 @@
                 };
                 // dispatch to editor
                 console.log('top', top, 'left', left, 'width', width, 'height', height);
-                Unit.scale = window.devicePixelRatio;
-                const { toMillimeter } = Unit;
+                const scale = window.devicePixelRatio;
                 const id = e.target.getAttribute('id');
                 this.$store.state.printItems = this.$store.state.printItems.map(item => {
                     item.active = false; // for style editing
                     if (id === item.id) {
                         item.style ={
-                            top: toMillimeter(top),
-                            left: toMillimeter(left),
-                            width: toMillimeter(width),
-                            height: toMillimeter(height)
+                            top: toMillimeter(top, scale),
+                            left: toMillimeter(left, scale),
+                            width: toMillimeter(width, scale),
+                            height: toMillimeter(height, scale)
                         }
                         item.active = true;
                     }

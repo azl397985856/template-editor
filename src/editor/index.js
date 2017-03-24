@@ -1,5 +1,5 @@
 import { to_xml as toXML } from 'xmljson';
-import Unit from '../util/unit';
+import { toMillimeter } from '../util/unit';
 
 // usage https://github.com/ExactTarget/node-xmljson
 export function XMLToJSON () {
@@ -25,18 +25,17 @@ export function JSONToXML (items, pageConfig = {
 		})
 		return XML;
 	}).join(' ');
-	Unit.scale = window.devicePixelRatio;
-	const { toMillimeter } = Unit;
+	const scale = window.devicePixelRatio;
 	const baseLayout = `<?xml version="1.0" encoding="UTF-8"?>
         <layout
             xmlns="http://cloudprint.cainiao.com/print"
 			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 			xsi:schemaLocation="http://cloudprint.cainiao.com/print http://cloudprint-docs-resource.oss-cn-shanghai.aliyuncs.com/lpml_schema.xsd"
 			xmlns:editor="http://cloudprint.cainiao.com/schema/editor"
-            top="${toMillimeter(pageConfig.top)}"
-            left="${toMillimeter(pageConfig.left)}"
-            width="${toMillimeter(pageConfig.width)}"
-            height="${toMillimeter(pageConfig.height)}"
+            top="${toMillimeter(pageConfig.top, scale)}"
+            left="${toMillimeter(pageConfig.left, scale)}"
+            width="${toMillimeter(pageConfig.width, scale)}"
+            height="${toMillimeter(pageConfig.height, scale)}"
             style="${pageConfig.style}"
         >
     `

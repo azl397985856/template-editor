@@ -1,7 +1,9 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuex from 'vuex';
 
 import leftPanel from '../components/leftPanel.vue';
+
+import { DEFAULT_STYLE } from '../config/index';
 
 Vue.use(Vuex)
 
@@ -17,33 +19,28 @@ function guid () {
 	return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
 	s4() + '-' + s4() + s4() + s4();
 }
-const DEFAULT_STYLE = {
-	fontSize: 12,
-	fontFamily: '扁桃体',
-	fw: ['']
-}
 export default new Vuex.Store({
 	state: {
 		printItems: [],
-		currentStyle: DEFAULT_STYLE
+		editStyle: DEFAULT_STYLE
 	},
 	mutations: {
 		addItem (state, payload) {
-			payload.id = guid();
-			state.printItems.push(payload);
+			state.printItems.push({
+				...payload,
+				id: guid()
+			});
 		},
 		editStyle (state, payload) {
 			state.printItems = state.printItems.map(item => {
+				// edit active item
 				if (item.active) {
-					const currentStyle = { ...item.editStyle, ...payload }
-					item.editStyle = currentStyle;
-					state.currentStyle = currentStyle;
+					const editStyle = { ...item.editStyle, ...payload }
+					item.editStyle = editStyle;
+					state.editStyle = editStyle;
 				}
 				return item;
 			});
-		},
-		currentStyle (state, payload) {
-			state.currentStyle = payload;
 		}
 	},
 	actions: {
@@ -52,9 +49,6 @@ export default new Vuex.Store({
 		},
 		editStyle (state, payload) {
 			state.commit('editStyle', payload);
-		},
-		currentStyle (state, payload) {
-			state.commit('currentStyle', payload);
 		}
 	},
 	strict: debug

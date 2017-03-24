@@ -1,6 +1,6 @@
 <template>
     <div class="header-container">
-        {{ name }}
+        {{ title }}
     </div>
 </template>
 
@@ -12,7 +12,7 @@
     module.exports = {
         data: function () {
             return {
-                name: '模板编辑器（alpha）'
+                title: '模板编辑器（alpha）'
             }
         }
     }
