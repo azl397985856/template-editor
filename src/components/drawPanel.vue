@@ -2,6 +2,8 @@
     <div class="draw-panel-container">
         <div
             class="print-item"
+            v-show="item.key"
+            @click="onItemClick"
             @mousedown="drop"
             @mouseup="drop"
             v-drag="edge"
@@ -92,6 +94,12 @@
                     return item;
                 });
             },
+            onItemClick(e) {
+                // dispatch
+                const key = e.target.getAttribute('print-key');
+                const item = this.$store.state.printItems.filter(_item => item.key === key)[0];
+                this.$store.dispatch('currentStyle', item.editStyle);
+            },
             translatePrintItem(items) {
                 return items.map(item => {
                     const ret = {};
@@ -107,7 +115,12 @@
             },
             deleteItem(e) {
                 const key = e.target.getAttribute('print-key');
-                this.$store.state.printItems = this.$store.state.printItems.filter(item => item.key !== key);
+                this.$store.state.printItems = this.$store.state.printItems.map(item => {
+                    if (item.key === key) {
+                        item = {};
+                    }
+                    return item;
+                });
             },
             saveTemplate() {
                 const XML = JSONToXML(this.translatePrintItem(this.$store.state.printItems));

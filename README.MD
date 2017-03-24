@@ -26,6 +26,7 @@ npm run test
 3. escape charactors [CDATA tag
 4. style supported
 5. complete XMLToJSON
+6. fix resize bug on mac
 
 ## Licence
 
