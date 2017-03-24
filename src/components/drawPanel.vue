@@ -44,6 +44,8 @@
             const printItems = [];
 
             // 生成print-items
+            // more filed to be translated
+            // see http://cloudprint-docs-resource.oss-cn-shanghai.aliyuncs.com/lpmlSpec.html#chapter3
             for(let key in items) {
                 const ret = {};
                 const item = items[key];
@@ -134,6 +136,8 @@
                 this.editStyle(id);
             },
             translatePrintItem(items) {
+                // more filed to be translated
+                // see http://cloudprint-docs-resource.oss-cn-shanghai.aliyuncs.com/lpmlSpec.html#chapter3
                 return items.map(item => {
                     const ret = {};
 
