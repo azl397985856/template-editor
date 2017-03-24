@@ -86,6 +86,8 @@
                             height: toMillimeter(height)
                         }
                         item.active = true;
+                         // dispatch
+                         this.$store.dispatch('currentStyle', item.editStyle || {});
                     }
                     return item;
                 });

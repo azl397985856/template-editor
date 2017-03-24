@@ -4,7 +4,7 @@
             字体：
             <el-select
                 @change="handleFontFamilyChange"
-                v-model="fontFamily"
+                v-model="currentStyle.fontFamily"
                 size="small"
                 placeholder="请选择"
             >
@@ -18,12 +18,12 @@
         </div>
         <div class="right-panel-fs">
             字号：
-            <el-input-number v-model="fontSize" size="small" @change="handleFontSizeChange" :min="1" :max="50">
+            <el-input-number v-model="currentStyle.fontSize" size="small" @change="handleFontSizeChange" :min="1" :max="50">
             </el-input-number>
         </div>
         <div class="right-panel-fw">
             字形：
-             <el-radio-group v-model="fw"  @change="handleShapChange">
+             <el-radio-group v-model="currentStyle.fw"  @change="handleShapChange">
                 <el-radio-button size="small" label="B"></el-radio-button>
                 <el-radio-button size="small" label="I"></el-radio-button>
                 <el-radio-button size="small" label="U"></el-radio-button>
@@ -31,7 +31,7 @@
         </div>
         <div class="right-panel-al">
             对齐：
-            <el-radio-group v-model="al" @change="handleAlignChange">
+            <el-radio-group v-model="currentStyle.al" @change="handleAlignChange">
                 <el-radio-button size="small" label="L"></el-radio-button>
                 <el-radio-button size="small" label="C"></el-radio-button>
                 <el-radio-button size="small" label="R"></el-radio-button>
@@ -50,7 +50,6 @@
     module.exports = {
         data: function () {
             return {
-                 fontSize: '12',
                  options: [{
                     fontFamily: 'key1',
                     label: '宋体'
@@ -69,7 +68,8 @@
                 }],
                     fontFamily: '扁桃体',
                     al: '',
-                    fw: ''
+                    fw: '',
+                    fontSize: '12'
                 }
         },
         methods: {
@@ -97,6 +97,11 @@
                  this.$store.dispatch('editStyle', {
                     fontWeight
                 });
+            }
+        },
+         computed: {
+            currentStyle(vueComponent) {
+                return vueComponent.$store.state.currentStyle;
             }
         }
     }
