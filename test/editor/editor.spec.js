@@ -10,35 +10,34 @@ import { JSONToXML, XMLToJSON } from '../../src/editor/index.js';
 describe('editor ------>', () => {
 	it ('JSON to XML: attr only', () => {
 		const items = [{
-			layout: {
-				$: {
-					top: 20,
-					width: 66,
-					height: 30,
-					left: 99
-				}
+			id: '233433',
+			key : 'sender',
+			pos: {
+				left: 33,
+				height: 33,
+				top: 3
 			}
 		}, {
-			layout: {
-				$:{
-					top: 20,
-					width: 28,
-					height: 10,
-					left: 99
-				}
+			id : '666666',
+			key: 'sender_province',
+			pos: {
+				left: 99,
+				height: 33,
+				top: 3
 			}
 		}];
 		let ret;
 		toJSON(JSONToXML(items), (error, data) => {
 			ret = data;
 		})
+		console.info(ret.layout.layout)
 		expect(ret)
 		.to.have.property('layout')
 		.to.have.property('layout')
 		.to.have.property('1')
 		.to.have.property('$')
 		.to.have.property('left')
-		.to.equal('99');
+		.to.equal('26.19');
 	})
 	it ('XML to JSON: attr only', () => {
 		// TODO

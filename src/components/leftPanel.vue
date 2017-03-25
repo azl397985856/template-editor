@@ -18,7 +18,6 @@
     module.exports = {
         data: function () {
             return {
-                name: 'leftPanel',
                 printItem: rect.concat(image)
             }
         },

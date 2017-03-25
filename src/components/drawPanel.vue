@@ -9,7 +9,7 @@
             v-drag="edge"
             v-for="item in printItems"
             :id="item.id"
-            :style="item.editStyle"
+            :style="item.style"
         >
             <i class="el-icon-close" :id="item.id" @click="deleteItem" />
             {{item.title}}
@@ -26,48 +26,23 @@
 </style>
 
 <script>
-    import $ from 'jquery';
-
     import { JSONToXML, XMLToJSON } from '../editor/index';
 
-    import enums from '../enums/index';
+    // services
     import { getTemplate } from '../services/index';
-    import { stringifyStyle, parseStyle } from '../util/style';
+
     import { toMillimeter } from '../util/unit';
+
     import { DEFAULT_STYLE } from '../config/index';
 
     module.exports = {
         created() {
-            const template = XMLToJSON(getTemplate());
-            const page = template.layout;
-            const items = page.layout;
-            const printItems = [];
-
-            // 生成print-items
-            // more filed to be translated
-            // see http://cloudprint-docs-resource.oss-cn-shanghai.aliyuncs.com/lpmlSpec.html#chapter3
-            for(let key in items) {
-                const ret = {};
-                const item = items[key];
-                const { top, left, width, height } = item.$;
-                ret.id = item.$.id;
-                ret.style = {
-                    top,
-                    left,
-                    width,
-                    height
-                }
-                ret.editStyle = parseStyle(item.text.$.style);
-                ret.title = item.text.$['editor:_printName_'];
-                ret.key = item.text._.match(/\..*%/)[0].slice(1, -1);
-                printItems.push(ret);
-            }
-
+            // init printItem
+            const printItems = XMLToJSON(getTemplate());
             this.$store.state.printItems = printItems;
             
-            // 同步style数据到右侧面板
+            // this.editStyle: 同步style数据到右侧面板
             printItems.forEach(item => this.editStyle(item.id));
-            console.info(items)
         },
         data: function () {
             return {
@@ -98,6 +73,7 @@
                 const top = e.target.offsetTop;
                 const left = e.target.offsetLeft;
 
+                // TODO: 仅仅在需要的时候计算edge
                 this.edge= {
                     p1: {
                         left: tLeft + e.clientX - left,
@@ -108,14 +84,15 @@
                         top: tTop + tHeight - e.clientY + top
                     }
                 };
-                // dispatch to editor
+
+                // change item‘s pos when movinh
                 console.log('top', top, 'left', left, 'width', width, 'height', height);
                 const scale = window.devicePixelRatio;
                 const id = e.target.getAttribute('id');
                 this.$store.state.printItems = this.$store.state.printItems.map(item => {
                     item.active = false; // for style editing
                     if (id === item.id) {
-                        item.style ={
+                        item.pos ={
                             top: toMillimeter(top, scale),
                             left: toMillimeter(left, scale),
                             width: toMillimeter(width, scale),
@@ -128,32 +105,17 @@
             },
             editStyle(id) {
                 const item = this.$store.state.printItems.filter(_item => _item.id === id)[0];
-                this.$store.dispatch('editStyle', item.editStyle || DEFAULT_STYLE);
+                this.$store.dispatch('editStyle', item.style || DEFAULT_STYLE);
             },
             onItemClick(e) {
                 const id = e.target.getAttribute('id');
                 if (!id) return;
+                // apply style when selected
                 this.editStyle(id);
-            },
-            translatePrintItem(items) {
-                // more filed to be translated
-                // see http://cloudprint-docs-resource.oss-cn-shanghai.aliyuncs.com/lpmlSpec.html#chapter3
-                return items.map(item => {
-                    const ret = {};
-
-                    if (!item.id) return ret;
-                    ret.layout = {};
-                    ret.layout.$ = {};
-                    ret.layout.text = {};
-                    ret.layout.text._ = `<![CDATA[<%=_data.${item.key}%>]]>`;
-                    ret.layout.text.$ = {};
-                    ret.layout.text.$.style = stringifyStyle(item.editStyle);
-                    ret.layout.$ = item.style;
-                    return ret;
-                })
             },
             deleteItem(e) {
                 const id = e.target.getAttribute('id');
+                // 不可以使用filter
                 this.$store.state.printItems = this.$store.state.printItems.map(item => {
                     if (item.id === id) {
                         item = {};
@@ -162,13 +124,13 @@
                 });
             },
             saveTemplate() {
-                const XML = JSONToXML(this.translatePrintItem(this.$store.state.printItems));
-                console.info(XML);
+                const XML = JSONToXML(this.$store.state.printItems);
+                console.info(`parsed XML:${XML}`);
             }
         },
         computed: {
-            printItems(vueComponent) {
-                return vueComponent.$store.state.printItems;
+            printItems() {
+                return this.$store.state.printItems;
             }
         }
     }

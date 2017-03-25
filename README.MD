@@ -23,8 +23,7 @@ npm run test
 ## TODO
 1. the close-icon of the print-item should be responsive.
 2. the location of the print-item should be responsive.
-3. escape charactors [CDATA tag
-6. fix resize bug on mac
+3. fix resize bug on mac
 
 ## Licence
 

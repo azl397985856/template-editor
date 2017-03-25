@@ -8,8 +8,8 @@ import store from './store/index';
 import './entry.less';
 import 'element-ui/lib/theme-default/index.css';
 
-Vue.use(vueDrag);
-Vue.use(ElementUI);
+Vue.use(vueDrag); // for dragging by add directive
+Vue.use(ElementUI); // powerful UI lib like antd
 
 new Vue({
 	el: '#app',

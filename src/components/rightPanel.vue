@@ -9,9 +9,9 @@
                 placeholder="请选择"
             >
                     <el-option
-                        v-for="item in options"
-                        :label="item.label"
-                        :value="item.fontFamily"
+                        v-for="font in fonts"
+                        :label="font.label"
+                        :value="font.fontFamily"
                     >
                     </el-option>
             </el-select>
@@ -37,13 +37,12 @@
 </style>
 
 <script>
-    import $ from 'jquery';
     import { fonts, mapper } from '../config/index';
 
     module.exports = {
         data: function () {
             return {
-                 options: fonts,
+                 fonts,
             }
         },
         methods: {
@@ -80,8 +79,8 @@
             }
         },
         computed: {
-            editStyle (vueComponent) {
-                return vueComponent.$store.state.editStyle;
+            editStyle () {
+                return this.$store.state.editStyle;
             }
         }
     }

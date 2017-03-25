@@ -14,6 +14,8 @@
      import rightPanel from './components/rightPanel.vue';
      import drawPanel from './components/drawPanel.vue';
      import leftPanel from './components/leftPanel.vue';
+
+     // registry components
      export default {
         components:{
             'template-header':header,

@@ -1,8 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import leftPanel from '../components/leftPanel.vue';
-
 import { DEFAULT_STYLE, mapper } from '../config/index';
 
 Vue.use(Vuex)
@@ -35,10 +33,10 @@ export default new Vuex.Store({
 			state.printItems = state.printItems.map(item => {
 				// edit active item
 				if (item.active) {
-					const editStyle = { ...item.editStyle, ...payload }
-					item.editStyle = editStyle;
-					state.editStyle = editStyle;
-					const { fontWeight, fontStyle, textDecoration } = editStyle;
+					const style = { ...item.style, ...payload }
+					item.style = style;
+					state.editStyle = style;
+					const { fontWeight, fontStyle, textDecoration } = style;
 					state.editStyle.fw = [mapper[fontStyle], mapper[fontWeight], mapper[textDecoration]];
 				}
 				return item;
