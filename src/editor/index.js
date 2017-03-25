@@ -26,14 +26,8 @@ export function XMLToJSON (xml) {
 	for (const key in items) {
 		const ret = {};
 		const item = items[key];
-		const { top, left, width, height } = item.$;
 		ret.id = item.$.id;
-		ret.pos = {
-			top,
-			left,
-			width,
-			height
-		}
+		ret.pos = item.$;
 		// style : fontFamily fontWeight and so on
 		ret.style = parseStyle(item.text.$.style);
 		ret.title = item.text.$['editor:_printName_'];
@@ -55,14 +49,14 @@ export function JSONToXML (items, pageConfig = {
 		// see http://cloudprint-docs-resource.oss-cn-shanghai.aliyuncs.com/lpmlSpec.html#chapter3
 	const parsedItems = items.map(item => {
 		const ret = {};
-		const { top, left, width, height } = item.pos;
+		const { top, left, width, height } = item.pos || {};
 		if (!item.id) return ret;
 		ret.layout = {};
 		ret.layout.$ = {};
 		ret.layout.text = {};
 		ret.layout.text._ = `<![CDATA[<%=_data.${item.key}%>]]>`;
 		ret.layout.text.$ = {};
-		ret.layout.text.$.style = stringifyStyle(item.style);
+		ret.layout.text.$.style = stringifyStyle(item.style || {});
 		ret.layout.$ = {
 			width: toMillimeter(width),
 			height: toMillimeter(height),

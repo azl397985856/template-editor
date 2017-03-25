@@ -1,6 +1,11 @@
 <template>
     <ul class="left-panel-container" @click="onSelect">
-        <li v-for="item in printItem" :print-item="JSON.stringify(item)" :print-key="item.key">
+        <li
+            v-for="item in printItem"
+            :print-item="JSON.stringify(item)"
+            :print-key="item.key"
+            :class="active"
+        >
             {{
                 item.title
             }}
@@ -13,7 +18,6 @@
 </style>
 
 <script>
-    import $ from 'jquery';
     import { rect, image } from '../enums/index';
     module.exports = {
         data: function () {
@@ -24,9 +28,11 @@
         methods: {
             onSelect(e) {
                 // add active class to selected item
-                $('.left-panel-container li').removeClass('active');
-                $(e.target).addClass('active');
-                
+                const lis = document.querySelectorAll('.left-panel-container li');
+                const li = document.querySelector(`[print-key = ${e.target.getAttribute('print-key')}`);
+                lis.forEach(li => li.classList.remove('active'));
+                li.classList.add('active');
+
                 // dispatch
                 this.$store.dispatch('addItem', JSON.parse(e.target.getAttribute('print-item')));
             }

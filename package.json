@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "element-ui": "^1.2.5",
-    "jquery": "^3.2.1",
     "vue": "^2.2.4",
     "vuejs-drag": "^1.0.0",
     "vuex": "^2.2.1",
