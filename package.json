@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "element-ui": "^1.2.5",
-    "vue": "^2.2.4",
+    "vue": "^3.0.0",
     "vuejs-drag": "^1.0.0",
     "vuex": "^2.2.1",
     "xmljson": "^0.2.0"
